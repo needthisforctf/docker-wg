@@ -10,7 +10,7 @@ Restart=always
 
 Environment="WG_INT_NAME=%i"
 Environment="DATA_VOL=/opt/docker-wg_data"
-Environment="IMG=turbotaxmachine"
+Environment="IMG=ghcr.io/needthisforctf/docker-wg:main"
 # We won't need this one, but I'll template it anyway
 Environment="WG_INT_PORT=51820"
 
