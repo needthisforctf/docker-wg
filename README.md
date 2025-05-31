@@ -9,7 +9,7 @@
 
 ```bash
 sudo cp systemd/docker-wg@.service /etc/systemd/system/
-# Порт по умолчанию — стандартный 51820, его можно поменять в файле сервиса
+# Порт по умолчанию — 10700, его можно поменять в файле сервиса
 sudo mkdir /opt/docker-wg_data && sudo chmod 600 /opt/docker-wg_data
 sudo systemctl daemon-reload
 sudo systemctl enable --now docker-wg@wg0
