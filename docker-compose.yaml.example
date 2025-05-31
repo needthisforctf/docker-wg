@@ -1,0 +1,14 @@
+services:
+    docker-wg:
+        container_name: docker-wg
+        build:
+            context: .
+            dockerfile: Dockerfile # на всякий случай
+        restart: always
+        network_mode: host
+        environment:
+            WG_INT_NAME: wg0
+            WG_INT_PORT: 51820
+        volumes:
+            - /lib/modules:/lib/modules
+            - /opt/docker-wg_data:/etc/wireguard/

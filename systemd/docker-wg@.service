@@ -1,0 +1,36 @@
+[Unit]
+Description=Wireguard Docker Container
+Documentation=https://github.com/needthisforctf/docker-wg
+After=network.target docker.service
+Requires=docker.service
+
+[Service]
+RestartSec=10
+Restart=always
+
+Environment="WG_INT_NAME=%i"
+Environment="DATA_VOL=/opt/docker-wg_data"
+Environment="IMG=turbotaxmachine"
+# We won't need this one, but I'll template it anyway
+Environment="WG_INT_PORT=51820"
+
+# Clean-up bad state if still hanging around
+ExecStartPre=-/usr/bin/docker rm -f docker-wg
+
+# Attempt to pull new image for security updates
+ExecStartPre=-/usr/bin/docker pull $IMG
+
+# Main process (in host mode, so it can create a TUN outside)
+ExecStart=/usr/bin/docker run --rm \
+    --cap-add=NET_ADMIN \
+    --network=host \
+    --name docker-wg \
+    -e WG_INT_NAME=${WG_INT_NAME} -e WG_INT_PORT=${WG_INT_PORT} \
+    -v /lib/modules:/lib/modules -v ${DATA_VOL}:/etc/wireguard/ \
+    $IMG
+
+# Soft-reload
+ExecReload=/usr/bin/docker exec docker-wg wg-reload.sh
+
+[Install]
+WantedBy=multi-user.target
