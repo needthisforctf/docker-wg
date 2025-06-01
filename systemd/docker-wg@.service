@@ -6,6 +6,8 @@ Requires=docker.service
 
 [Service]
 RestartSec=10
+# Let docker finish docker pull
+TimeoutStartSec=0
 Restart=always
 
 Environment="WG_INT_NAME=%i"
